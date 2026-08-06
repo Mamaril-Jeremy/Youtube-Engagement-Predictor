@@ -1,38 +1,197 @@
 # YouTube Engagement Predictor
 
-Predicts engagement rate for YouTube content from post metadata and text
-features, so creators get actionable feedback before publishing.
+Predicts the engagement rate of a YouTube video before it's published, using post metadata and the text of the title and description. Built as the capstone for DTSC 691: Applied Data Science.
 
-**[Live Demo](your-streamlit-url)** 
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
+![XGBoost](https://img.shields.io/badge/XGBoost-gradient%20boosting-green)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-red)
+![Streamlit](https://img.shields.io/badge/Streamlit-app-ff4b4b)
+
+**[Watch the full walkthrough (video)](FILL: your video link)** — covers the problem, the modeling approach, a code walkthrough, and a live demo of the app.
+
+---
 
 ## Problem
-[2-3 sentences: what question this answers and why it matters]
+
+Creators decide on a title, a description, and a posting time before they have any feedback on whether those choices will work. The feedback only arrives after publishing, when it's too late to change anything.
+
+This project predicts engagement rate from the information a creator already has in hand before hitting publish. A rule-based approach can handle something like "post in the evening," but it can't weigh how posting time interacts with category, video length, and how strong the title actually reads. That interaction is what the model is for.
+
+---
+
+## Data
+
+**Source:** [YouTube Trending Video Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new) (Kaggle) — records of trending videos across multiple categories, from high-budget music videos to organic viral content.
+
+**Size:** FILL: N rows after cleaning, N features
+
+The dataset covers trending videos rather than a single creator's channel history. That's a real limitation (see [Limitations](#limitations)), but it means the model learns from content that actually broke through, which is the target creators are aiming at.
+
+**Target variable.** There's no engagement column in the raw data, so I built one:
+
+```
+engagement_rate = (likes + comments) / views
+```
+
+Dividing by views normalizes across audience size, so a 50k-view video and a 5M-view video are comparable and subscriber count doesn't need to be a feature. I then percentile-ranked the result so the output means something to a user — "you're in the 72nd percentile" is more useful than a raw decimal.
+
+---
+
+## Pipeline
+
+```mermaid
+flowchart LR
+    A[Kaggle trending<br/>dataset] --> B[Cleaning + EDA]
+    B --> C[Metadata<br/>features]
+    B --> D[Title +<br/>description text]
+    D --> E[Hugging Face<br/>sentiment API]
+    C --> F[Feature matrix]
+    E --> F
+    F --> G[4 models trained<br/>+ tuned]
+    G --> H[Best model<br/>by MAE]
+    H --> I[Streamlit app]
+```
+
+---
 
 ## Approach
-- Cleaned and explored ~X,000 records; engineered features from metadata and text
-- Integrated Hugging Face API for sentiment analysis
-- Trained and compared [N] models: logistic regression baseline, random forest,
-  gradient boosting
-- Selected [model] based on [metric]
+
+### Cleaning
+
+Handled programmatically so the pipeline can be rerun on new data:
+
+- Imputed missing values
+- Standardized title and description text
+- Normalized engagement rates across varying audience sizes
+- FILL: anything else specific you did
+
+### EDA
+
+Descriptive statistics on the engagement metrics, correlation heatmaps between post attributes and engagement, and histograms and box plots on the target to check skewness and outliers. I also checked the distribution of engagement levels for imbalance before committing to a regression framing.
+
+FILL: 1-2 sentences on what the EDA actually changed about your approach — a feature you dropped, an outlier decision, a skew you had to handle.
+
+### Feature engineering
+
+Two feature groups get combined into one matrix:
+
+**Metadata:** posting time, content category, and other structural attributes of the post.
+FILL: list your actual engineered features — hour of day, day of week, tag count, title length, description length, etc.
+
+**Text:** title and description are passed through a Hugging Face sentiment model, which returns a numerical strength score for each. This replaced my original plan to train a text network from scratch — the pretrained model gave better representations than anything I could train on this dataset size, and it cut training time substantially.
+
+### Models
+
+Four algorithms, 80/20 train/test split, tuned with randomized cross-validation search:
+
+- Linear Regression (baseline)
+- Random Forest
+- XGBoost
+- Neural Network (Keras)
+
+**Metric: Mean Absolute Error.** MAE is directly interpretable here — it's the average number of percentage points the prediction misses the true engagement rate by. RMSE would have punished the handful of viral outliers heavily, and those aren't the videos the model needs to be right about.
+
+---
 
 ## Results
-| Model | RMSE | R² |
-|-------|------|-----|
-| Baseline (linear) | X.XX | 0.XX |
-| Random Forest | X.XX | 0.XX |
-| Gradient Boosting | X.XX | 0.XX |
 
-Best model improved on baseline by X%.
+| Model | MAE | Notes |
+|---|---|---|
+| Linear Regression (baseline) | FILL | |
+| Random Forest | FILL | |
+| XGBoost | FILL | |
+| Neural Network | FILL | |
 
-## Key Findings
-- [One genuinely interesting thing the data showed]
-- [Another]
+**Best model: FILL** — MAE of FILL, a FILL% improvement over the linear baseline.
 
-## Tech Stack
-Python, pandas, scikit-learn, Hugging Face Transformers, Streamlit
+FILL: one sentence on which features mattered most (feature importances from RF/XGBoost).
 
-## Running It
+---
+
+## Key findings
+
+- FILL: something the data actually showed — e.g. how much posting time mattered relative to text sentiment
+- FILL: something that surprised you or contradicted the assumption you started with
+- FILL: a feature that turned out not to matter
+
+---
+
+## The app
+
+A Streamlit application with four pages: a homepage, a resume page, a projects index, and the project page itself.
+
+On the project page, a user pastes in their intended title, description, and transcript along with pre-post metadata. The app returns three things:
+
+1. **A predicted engagement rate** — "your predicted engagement rate is X%"
+2. **Hook feedback** — how strong the title and description read, scored separately
+3. **Suggestions** — if the text scores come back low, the app returns specific ways to strengthen them
+
+---
+
+## Repo structure
+
+```
+FILL: adjust to match your actual layout
+
+├── app/
+│   ├── app.py              # Streamlit entry point
+│   └── pages/              # additional app pages
+├── notebooks/
+│   ├── 01_eda.ipynb        # exploratory analysis
+│   ├── 02_features.ipynb   # feature engineering
+│   └── 03_modeling.ipynb   # training and evaluation
+├── models/                 # serialized model + preprocessing pipeline
+├── data/                   # (gitignored — see setup)
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Running it locally
+
+The app isn't hosted — deployment hit an issue I haven't resolved, so it runs locally for now. The walkthrough video above shows it working end to end if you'd rather not set it up.
+
 ```bash
+git clone https://github.com/FILL/FILL.git
+cd FILL
 pip install -r requirements.txt
+
+cd app
 streamlit run app.py
 ```
+
+FILL: note whether the user needs a Hugging Face API key, and where to put it.
+
+The dataset isn't committed. Download it from the Kaggle link above and place it in `data/`.
+
+---
+
+## Limitations
+
+Worth being direct about these:
+
+- **The dataset is trending videos, not typical channel performance.** The model learns what separates trending videos from each other, not what makes an average video trend. Predictions are most meaningful as relative guidance.
+- **No thumbnail analysis.** Thumbnails drive a large share of click-through and the model doesn't see them at all.
+- **No video content analysis.** Nothing frame-by-frame — the model only sees metadata and text.
+- **Sentiment is a proxy for "hook strength."** A sentiment score isn't the same thing as how compelling a title is, and treating them as equivalent is the biggest assumption in the pipeline.
+
+---
+
+## Possible extensions
+
+- Thumbnail features through a vision model
+- Channel-level history as a feature, if paired with per-channel data
+- Deploying the app so it doesn't require local setup
+
+---
+
+## Tech stack
+
+**Language:** Python
+**Data:** pandas, NumPy
+**Visualization:** Matplotlib, Seaborn
+**Modeling:** scikit-learn, XGBoost, TensorFlow/Keras
+**NLP:** Hugging Face API
+**App:** Streamlit
