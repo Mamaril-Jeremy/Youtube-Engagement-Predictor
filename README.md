@@ -19,17 +19,17 @@ This project predicts engagement rate from the information a creator already has
 
 **Source:** [YouTube Trending Video Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new) (Kaggle) — records of trending videos across multiple categories, from high-budget music videos to organic viral content.
 
-**Size:** FILL: N rows after cleaning, N features
+**Size:** 50531 rows after cleaning, 19 features
 
 The dataset covers trending videos rather than a single creator's channel history. That's a real limitation (see [Limitations](#limitations)), but it means the model learns from content that actually broke through, which is the target creators are aiming at.
 
-**Target variable.** There's no engagement column in the raw data, so I built one:
+**Target variable.** There was no engagement column in the raw data, so the target variable I created was as follows:
 
 ```
 engagement_rate = (likes + comments) / views
 ```
 
-Dividing by views normalizes across audience size, so a 50k-view video and a 5M-view video are comparable and subscriber count doesn't need to be a feature. I then percentile-ranked the result so the output means something to a user — "you're in the 72nd percentile" is more useful than a raw decimal.
+Dividing by views normalizes across audience size, so a 50k-view video and a 5M-view video are comparable and subscriber count doesn't need to be a feature. I then percentile-ranked the result so the output means something to a user — "you're in the 72nd percentile" is more useful than a decimal number.
 
 ---
 
@@ -127,7 +127,6 @@ On the project page, a user pastes in their intended title, description, and tra
 ## Repo structure
 
 ```
-FILL: adjust to match your actual layout
 
 ├── app/
 │   ├── app.py              # Streamlit entry point
@@ -157,15 +156,13 @@ cd app
 streamlit run app.py
 ```
 
-FILL: note whether the user needs a Hugging Face API key, and where to put it.
+No API Key Required
 
 The dataset isn't committed. Download it from the Kaggle link above and place it in `data/`.
 
 ---
 
 ## Limitations
-
-Worth being direct about these:
 
 - **The dataset is trending videos, not typical channel performance.** The model learns what separates trending videos from each other, not what makes an average video trend. Predictions are most meaningful as relative guidance.
 - **No thumbnail analysis.** Thumbnails drive a large share of click-through and the model doesn't see them at all.
