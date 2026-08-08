@@ -2,13 +2,8 @@
 
 Predicts the engagement rate of a YouTube video before it's published, using post metadata and the text of the title and description. Built as the capstone for DTSC 691: Applied Data Science.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
-![XGBoost](https://img.shields.io/badge/XGBoost-gradient%20boosting-green)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-red)
-![Streamlit](https://img.shields.io/badge/Streamlit-app-ff4b4b)
 
-**[Watch the full walkthrough (video)](FILL: your video link)** — covers the problem, the modeling approach, a code walkthrough, and a live demo of the app.
+**[Watch the full walkthrough (video)](https://youtu.be/5keLrlOZ4RY)** — covers the problem, the modeling approach, a code walkthrough, and a live demo of the app.
 
 ---
 
