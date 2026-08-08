@@ -181,9 +181,9 @@ The dataset isn't committed. Download it from the Kaggle link above and place it
 
 ## Tech stack
 
-**Language:** Python
-**Data:** pandas, NumPy
-**Visualization:** Matplotlib, Seaborn
-**Modeling:** scikit-learn, XGBoost, TensorFlow/Keras
-**NLP:** Hugging Face API
-**App:** Streamlit
+- **Language:** Python
+- **Data:** pandas, NumPy
+- **Visualization:** Matplotlib, Seaborn
+- **Modeling:** scikit-learn, XGBoost, TensorFlow/Keras
+- **NLP:** Hugging Face API
+- **App:** Streamlit
