@@ -136,7 +136,7 @@ The app isn't hosted — deployment hit an issue I haven't resolved, so it runs 
 
 ```bash
 git clone https://github.com/Mamaril-Jeremy/Youtube-Engagement-Predictor.git
-cd FILL
+cd notebooks
 pip install -r requirements.txt
 
 cd app
