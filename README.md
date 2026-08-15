@@ -86,7 +86,9 @@ Four algorithms, 80/20 train/test split, tuned with randomized cross-validation 
 - XGBoost
 - Neural Network (Keras)
 
-**Metric: Mean Absolute Error.** R-squared measure how much of the variance in the data was captured by the model. MAE is the average number of percentage points the prediction misses the true engagement rate by. 
+**Metric 1: Mean Absolute Error.** MAE is the average number of percentage points the prediction misses the true engagement rate by. 
+
+**Metric 2: R-squared.** R-squared measure how much of the variance in the data was captured by the model.
 
 ---
 
