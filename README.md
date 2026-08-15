@@ -130,31 +130,12 @@ On the project page, a user pastes in their intended title, description, and tra
 
 ---
 
-## Repo structure
-
-```
-
-├── app/
-│   ├── app.py              # Streamlit entry point
-│   └── pages/              # additional app pages
-├── notebooks/
-│   ├── 01_eda.ipynb        # exploratory analysis
-│   ├── 02_features.ipynb   # feature engineering
-│   └── 03_modeling.ipynb   # training and evaluation
-├── models/                 # serialized model + preprocessing pipeline
-├── data/                   # (gitignored — see setup)
-├── requirements.txt
-└── README.md
-```
-
----
-
 ## Running it locally
 
 The app isn't hosted — deployment hit an issue I haven't resolved, so it runs locally for now. The walkthrough video above shows it working end to end if you'd rather not set it up.
 
 ```bash
-git clone https://github.com/FILL/FILL.git
+git clone https://github.com/Mamaril-Jeremy/Youtube-Engagement-Predictor.git
 cd FILL
 pip install -r requirements.txt
 
