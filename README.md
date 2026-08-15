@@ -112,9 +112,9 @@ The top 3 features were:
 
 ## Key findings
 
-- FILL: something the data actually showed — e.g. how much posting time mattered relative to text sentiment
-- FILL: something that surprised you or contradicted the assumption you started with
-- FILL: a feature that turned out not to matter
+- Textual elements matter significantly more than perfecting the timing of posts.
+- Having a good description matters, but making the title as clean and enticing as possible attracts engagement the most.
+- Disabling the comments didn't actually have as big of an effect as expected.
 
 ---
 
