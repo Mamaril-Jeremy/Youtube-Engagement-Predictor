@@ -30,7 +30,7 @@ The dataset covers trending videos rather than a single creator's channel histor
 engagement_rate = (likes + comments) / views
 ```
 
-Dividing by views normalizes across audience size, so a 50k-view video and a 5M-view video are comparable and subscriber count doesn't need to be a feature. I then percentile-ranked the result so the output means something to a user — "you're in the 72nd percentile" is more useful than a decimal number.
+Dividing by views normalizes across audience size, so a 50k-view video and a 5M-view video are comparable and subscriber count doesn't need to be a feature. I then percentile-ranked the result so the output means something to a user. For example, stating, "you're in the 72nd percentile", is more useful than a decimal number.
 
 ---
 
@@ -86,22 +86,25 @@ Four algorithms, 80/20 train/test split, tuned with randomized cross-validation 
 - XGBoost
 - Neural Network (Keras)
 
-**Metric: Mean Absolute Error.** MAE is the average number of percentage points the prediction misses the true engagement rate by. 
+**Metric: Mean Absolute Error.** R-squared measure how much of the variance in the data was captured by the model. MAE is the average number of percentage points the prediction misses the true engagement rate by. 
 
 ---
 
 ## Results
 
-| Model | MAE | Notes |
+| Model | MAE | R^2 |
 |---|---|---|
-| Linear Regression (baseline) | FILL | |
-| Random Forest | FILL | |
-| XGBoost | FILL | |
-| Neural Network | FILL | |
+| Linear Regression (baseline) | 0.0246 | 0.2459 |
+| Random Forest | 0.0163 | 0.5206 |
+| XGBoost | 0.0193 | 0.4407 |
+| Neural Network | 0.0210  | 0.3495 |
 
-**Best model: FILL** — MAE of FILL, a FILL% improvement over the linear baseline.
+**Best model: Random Forest** — MAE of 0.0163, a 33.7% improvement over the linear baseline.
 
-FILL: one sentence on which features mattered most (feature importances from RF/XGBoost).
+The top 3 features were:
+1. Title-caps ratio (calculated by taking the number of capital characters and dividing it by the total number of characters)
+2. Title length
+3. Total number of tags
 
 ---
 
