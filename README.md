@@ -1,6 +1,7 @@
 # YouTube Engagement Predictor
 
-Predicts the engagement rate of a YouTube video before it's published, using post metadata and the text of the title and description. Built as the capstone for DTSC 691: Applied Data Science.
+Predicts the engagement rate of a YouTube video before it's published, using post metadata and the text of the title and description. 
+Built as the capstone for DTSC 691: Applied Data Science.
 
 
 **[Watch the full walkthrough (video)](https://youtu.be/5keLrlOZ4RY)** — covers the problem, the modeling approach, a code walkthrough, and a live demo of the app.
@@ -11,7 +12,7 @@ Predicts the engagement rate of a YouTube video before it's published, using pos
 
 Creators decide on a title, a description, and a posting time before they have any feedback on whether those choices will work. The feedback only arrives after publishing, when it's too late to change anything.
 
-This project predicts engagement rate from the information a creator already has in hand before hitting publish. A rule-based approach can handle something like "post in the evening," but it can't weigh how posting time interacts with category, video length, and how strong the title actually reads. That interaction is what the model is for.
+This project predicts engagement rate from the information a creator already has in hand before hitting publish. A rule-based approach can handle something like "post in the evening," but it can't weigh how posting time interacts with category, video length, and how strong the title actually reads. It's at that point that makes the model is for.
 
 ---
 
@@ -59,13 +60,13 @@ Handled programmatically so the pipeline can be rerun on new data:
 - Imputed missing values
 - Standardized title and description text
 - Normalized engagement rates across varying audience sizes
-- FILL: anything else specific you did
+- Cleaned column names, date inputs, and other character junk found especially in the foreign countries' datasets.
 
 ### EDA
 
 Descriptive statistics on the engagement metrics, correlation heatmaps between post attributes and engagement, and histograms and box plots on the target to check skewness and outliers. I also checked the distribution of engagement levels for imbalance before committing to a regression framing.
 
-FILL: 1-2 sentences on what the EDA actually changed about your approach — a feature you dropped, an outlier decision, a skew you had to handle.
+My EDA made me decide to drop the lower and upper 2.5% of the data regarding engagement rate in order to also standardize the distribution. It also allowed me to make my best predictions on which features were the most impactful.
 
 ### Feature engineering
 
@@ -85,7 +86,7 @@ Four algorithms, 80/20 train/test split, tuned with randomized cross-validation 
 - XGBoost
 - Neural Network (Keras)
 
-**Metric: Mean Absolute Error.** MAE is directly interpretable here — it's the average number of percentage points the prediction misses the true engagement rate by. RMSE would have punished the handful of viral outliers heavily, and those aren't the videos the model needs to be right about.
+**Metric: Mean Absolute Error.** MAE is the average number of percentage points the prediction misses the true engagement rate by. 
 
 ---
 
